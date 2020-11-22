@@ -129,7 +129,7 @@ jobs:
         df -hT $PWD
         git clone -b $REPO_BRANCH --single-branch $REPO_URL openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
-        cd openwrt    
+        cd openwrt
         rm -rf package/ctcgfw/luci-app-argon-config
         rm -rf package/lienol/luci-app-timecontrol
         rm -rf package/ctcgfw/luci-theme-argonv3
@@ -157,13 +157,13 @@ jobs:
         fi
         if [ -n "$(ls -A "build/${{matrix.target}}/diy" 2>/dev/null)" ]; then
          cp -Rf build/${{matrix.target}}/diy/* ./
-        fi        
+        fi
         if [ -f "build/${{matrix.target}}/$DIY_P2_SH" ]; then
           chmod +x build/${{matrix.target}}/$DIY_P2_SH
           /bin/bash "build/${{matrix.target}}/$DIY_P2_SH"
         fi
         [ -e build/${{matrix.target}}/$CONFIG_FILE ]
-        mv build/${{matrix.target}}/$CONFIG_FILE .config    
+        mv build/${{matrix.target}}/$CONFIG_FILE .config
         make defconfig
         git clone https://github.com/openwrt-dev/po2lmo.git
         pushd po2lmo
@@ -188,7 +188,7 @@ jobs:
         cd openwrt
         echo -e "$(($(nproc)+1)) thread compile"
         make -j$(($(nproc)+1)) || make -j1 V=s
-        echo "::set-output name=status::success"     
+        echo "::set-output name=status::success"
         echo "date=$(date "+%Y-%m-%d %H.%M")" >> $GITHUB_ENV
         echo "date1=$(date "+%Y年%m月%d号-%H点%M分")" >> $GITHUB_ENV
         echo "date2=$(date "+%Y%m%d-%H%M")" >> $GITHUB_ENV
@@ -254,7 +254,7 @@ jobs:
       with:
         name: ${{ env.date1 }} 「 ${{ env.WXFB_MESSAGE }} 」固件
         tag_name: ${{ env.date2 }}
-        body: |            
+        body: |
             ☆  源码 : ${{ env.REPO_URL }}
             ☆  分支 : ${{ env.REPO_BRANCH }}
             ☆  感谢源码作者无私分享！
