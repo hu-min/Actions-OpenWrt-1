@@ -15,15 +15,15 @@ on:
       ssh:
         description: 'SSH远程'
         required: false
-        default: 'ssh actions'
+        default: 'true actions'
       wxtz:
         description: '微信通知'
-        required: false
-        default: 'wxtz actions'
+        required: true
+        default: 'true actions'
       release:
         description: '发布固件'
-        required: false
-        default: 'release actions'
+        required: true
+        default: 'true actions'
 
 
 #编辑任意指定文件触发开始编译（现在是修改根目录的'开启编译'触发编译）
@@ -80,7 +80,7 @@ jobs:
     
     - name: 删除自动发布的老固件
       uses: dev-drprasad/delete-older-releases@v0.1.0
-      if: steps.organizer.outputs.status == 'success' && env.UPLOAD_RELEASE == 'true' || (github.event.inputs.release == 'release' && github.event.inputs.release  != 'false')
+      if: steps.organizer.outputs.status == 'success' && env.UPLOAD_RELEASE == 'true' || (github.event.inputs.release == 'true' && github.event.inputs.release  != 'false')
       with:
         keep_latest: 0         #保留多少个发布不删除
         delete_tags: true
@@ -106,7 +106,7 @@ jobs:
     
     - name: 微信通知
       uses: emon100/Action-Serverchan@v2
-      if: env.SERVERCHAN_SCKEY == 'true' || (github.event.inputs.wxtz == 'wxtz' && github.event.inputs.wxtz  != 'false')
+      if: env.SERVERCHAN_SCKEY == 'true' || (github.event.inputs.wxtz == 'true' && github.event.inputs.wxtz  != 'false')
       with:
         SCKEY: ${{ secrets.SCKEY }}
         text: 主人${{matrix.target}}编译开始啦
@@ -174,7 +174,7 @@ jobs:
  
     - name: SSH远程连接服务器配置固件
       uses: P3TERX/ssh2actions@v1.0.0
-      if: env.SSH_ACTIONS == 'true' || (github.event.inputs.ssh == 'ssh' && github.event.inputs.ssh  != 'false')
+      if: env.SSH_ACTIONS == 'true' || (github.event.inputs.ssh == 'true' && github.event.inputs.ssh  != 'false')
 
     - name: 下载软件包
       id: package
@@ -254,7 +254,7 @@ jobs:
     
     - name: 自动发布固件
       uses: softprops/action-gh-release@v1
-      if: steps.organizer.outputs.status == 'success' && env.UPLOAD_RELEASE == 'true' || (github.event.inputs.release == 'release' && github.event.inputs.release  != 'false')
+      if: steps.organizer.outputs.status == 'success' && env.UPLOAD_RELEASE == 'true' || (github.event.inputs.release == 'true' && github.event.inputs.release  != 'false')
       env:
         GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
       with:
