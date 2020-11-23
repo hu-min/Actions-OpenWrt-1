@@ -15,15 +15,15 @@ on:
       ssh:
         description: 'SSH远程'
         required: false
-        default: 'true actions'
+        default: 'ssh actions'
       wxtz:
         description: '微信通知'
         required: false
-        default: 'true'
+        default: 'wxtz actions'
       release:
         description: '发布固件'
         required: false
-        default: 'true'
+        default: 'release actions'
 
 
 #编辑任意指定文件触发开始编译（现在是修改根目录的'开启编译'触发编译）
@@ -80,9 +80,9 @@ jobs:
     
     - name: 删除自动发布的老固件
       uses: dev-drprasad/delete-older-releases@v0.1.0
-      if: env.UPLOAD_RELEASE == 'true' || (github.event.inputs.release == 'true' && github.event.inputs.release == 'false' && github.event.inputs.release  != 'false')
+      if: env.UPLOAD_RELEASE == 'true' || (github.event.inputs.release == 'release' && github.event.inputs.release  != 'false')
       with:
-        keep_latest: 0         #保留多少个发布不删除
+        keep_latest: 6         #保留多少个发布不删除
         delete_tags: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}    
@@ -174,7 +174,7 @@ jobs:
  
     - name: SSH远程连接服务器配置固件
       uses: P3TERX/ssh2actions@v1.0.0
-      if: env.SSH_ACTIONS == 'true' || (github.event.inputs.ssh == 'true' && github.event.inputs.ssh  != 'false')
+      if: env.SSH_ACTIONS == 'true' || (github.event.inputs.ssh == 'ssh' && github.event.inputs.ssh  != 'false')
 
     - name: 下载软件包
       id: package
@@ -261,7 +261,7 @@ jobs:
     
     - name: 自动发布固件
       uses: softprops/action-gh-release@v1
-      if: steps.organizer.outputs.status == 'success' && env.UPLOAD_RELEASE == 'true' || (github.event.inputs.release == 'true' && github.event.inputs.release  != 'false')
+      if: steps.organizer.outputs.status == 'success' && env.UPLOAD_RELEASE == 'true' || (github.event.inputs.release == 'release' && github.event.inputs.release  != 'false')
       env:
         GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
       with:
