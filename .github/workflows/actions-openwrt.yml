@@ -80,7 +80,7 @@ jobs:
     
     - name: 删除自动发布的老固件
       uses: dev-drprasad/delete-older-releases@v0.1.0
-      if: steps.organizer.outputs.status == 'success' && env.UPLOAD_RELEASE == 'true' || (github.event.inputs.release == 'true' && github.event.inputs.release  != 'false')
+      if: steps.organizer.outputs.status == 'success' && env.UPLOAD_RELEASE == 'true' || (github.event.inputs.release == 'true' && (github.event.inputs.release == 'false' && github.event.inputs.release  != 'false')
       with:
         keep_latest: 0         #保留多少个发布不删除
         delete_tags: true
@@ -106,7 +106,7 @@ jobs:
     
     - name: 微信通知
       uses: emon100/Action-Serverchan@v2
-      if: env.SERVERCHAN_SCKEY == 'true' || (github.event.inputs.wxtz == 'true' && github.event.inputs.wxtz  != 'false')
+      if: env.SERVERCHAN_SCKEY == 'true' || (github.event.inputs.wxtz == 'wxtz' && github.event.inputs.wxtz  != 'false')
       with:
         SCKEY: ${{ secrets.SCKEY }}
         text: 主人${{matrix.target}}编译开始啦
@@ -244,13 +244,20 @@ jobs:
         ./transfer cow --block 2621440 -s -p 64 --no-progress ${FIRMWARE} 2>&1 | tee cowtransfer.log
         echo "::warning file=奶牛快传（${{matrix.target}}）::$(cat cowtransfer.log | grep https)"
         echo "COWTRANSFER_URL=$(cat cowtransfer.log | grep https | cut -f3 -d" ")" >> $GITHUB_ENV
-        [ $UPLOAD_COWTRANSFER = true ] && echo "${{ env.COWTRANSFER_URL }}" >> release.txt
-        
         curl -fsSL git.io/file-transfer | sh
         ./transfer wet -s -p 16 --no-progress ${FIRMWARE} 2>&1 | tee wetransfer.log
         echo "::warning file=WeTransfer（${{matrix.target}}）::$(cat wetransfer.log | grep https)"
         echo "WETRANSFER_URL=$(cat wetransfer.log | grep https | cut -f3 -d" ")" >> $GITHUB_ENV
-        [ $UPLOAD_COWTRANSFER = true ] && echo "${{ env.WETRANSFER_URL }}" 
+    
+    - name: 提取发布用的「奶牛快传」跟「WeTransfer」的链接
+      if: steps.organizer.outputs.status == 'success' && env.UPLOAD_RELEASE == 'true'
+      run: |
+        curl -fsSL git.io/file-transfer | sh
+        ./transfer cow --block 2621440 -s -p 64 --no-progress ${FIRMWARE} 2>&1 | tee cowtransfer.log
+        echo "COWTRANSFER_URL=$(cat cowtransfer.log | grep https | cut -f3 -d" ")" >> $GITHUB_ENV 
+        curl -fsSL git.io/file-transfer | sh
+        ./transfer wet -s -p 16 --no-progress ${FIRMWARE} 2>&1 | tee wetransfer.log
+        echo "WETRANSFER_URL=$(cat wetransfer.log | grep https | cut -f3 -d" ")" >> $GITHUB_ENV     
     
     - name: 自动发布固件
       uses: softprops/action-gh-release@v1
@@ -261,13 +268,13 @@ jobs:
         name: ${{ env.date1 }} 「 ${{ env.WXFB_MESSAGE }} 」固件
         tag_name: ${{ env.date2 }}
         body: |
-            ☆  源码 : ${{ env.REPO_URL }}
-            ☆  分支 : ${{ env.REPO_BRANCH }}
-            ☆  感谢源码作者无私分享！
+            ☆  源码 : ${{ env.REPO_URL }}  <br>
+            ☆  分支 : ${{ env.REPO_BRANCH }}  <br>
+            ☆  感谢源码作者无私分享！ <br>
             
             🎉 [ ${{ env.WXFB_MESSAGE }} ]固件下载 ✨
             
-            💐 奶牛快传(国内高速🚀下载)： ${{ env.release.txt }}
+            💐 奶牛快传(国内高速🚀下载)： ${{ env.COWTRANSFER_URL }}
             
             ⛄ WeTransfer(国外高速🚀下载)： ${{ env.WETRANSFER_URL }}
             
