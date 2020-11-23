@@ -218,6 +218,7 @@ jobs:
         find -name "*esxi.vmdk*" | xargs -i mv -f {} packages
         find -name "*Image*" | xargs -i mv -f {} packages
         find -name "*rootfs-squashfs*" | xargs -i mv -f {} packages
+        find -name "*squashfs-rootfs*" | xargs -i mv -f {} packages
         rm -rf packages
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         echo "::set-output name=status::success"
@@ -243,13 +244,13 @@ jobs:
         ./transfer cow --block 2621440 -s -p 64 --no-progress ${FIRMWARE} 2>&1 | tee cowtransfer.log
         echo "::warning file=奶牛快传（${{matrix.target}}）::$(cat cowtransfer.log | grep https)"
         echo "COWTRANSFER_URL=$(cat cowtransfer.log | grep https | cut -f3 -d" ")" >> $GITHUB_ENV
-        [ $UPLOAD_COWTRANSFER = true ] && echo "COWTRANSFER_URL"
+        [ $UPLOAD_COWTRANSFER = true ] && echo "🔗 [Cowtransfer](${{ env.COWTRANSFER_URL }})" >> release.txt
         
         curl -fsSL git.io/file-transfer | sh
         ./transfer wet -s -p 16 --no-progress ${FIRMWARE} 2>&1 | tee wetransfer.log
         echo "::warning file=WeTransfer（${{matrix.target}}）::$(cat wetransfer.log | grep https)"
         echo "WETRANSFER_URL=$(cat wetransfer.log | grep https | cut -f3 -d" ")" >> $GITHUB_ENV
-        [ $UPLOAD_COWTRANSFER = true ] && echo "WETRANSFER_URL"
+        [ $UPLOAD_COWTRANSFER = true ] && echo "🔗 [Cowtransfer](${{ env.WETRANSFER_URL }})" >> release1.txt
     
     - name: 自动发布固件
       uses: softprops/action-gh-release@v1
@@ -266,9 +267,9 @@ jobs:
             
             🎉 [ ${{ env.WXFB_MESSAGE }} ]固件下载 ✨
             
-            💐 奶牛快传(国内高速🚀下载)： ${{ env.COWTRANSFER_URL }}
+            💐 奶牛快传(国内高速🚀下载)： release.txt
             
-            ⛄ WeTransfer(国外高速🚀下载)： ${{ env.WETRANSFER_URL }}
+            ⛄ WeTransfer(国外高速🚀下载)： release1.txt
             
             🌴 链接有效期为7天，无需注册直接下载 🐤
         files: ${{ env.FIRMWARE }}/*
