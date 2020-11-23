@@ -78,7 +78,7 @@ jobs:
     
     - name: 删除自动发布的老固件
       uses: dev-drprasad/delete-older-releases@v0.1.0
-      if: steps.organizer.outputs.status == 'success' && env.UPLOAD_RELEASE == 'true'
+      if: steps.organizer.outputs.status == 'success' && env.UPLOAD_RELEASE == 'true' || (github.event.inputs.release == 'release' && github.event.inputs.release  != 'false')
       with:
         keep_latest: 10         #保留多少个发布不删除
         delete_tags: true
