@@ -250,7 +250,7 @@ jobs:
         ./transfer wet -s -p 16 --no-progress ${FIRMWARE} 2>&1 | tee wetransfer.log
         echo "::warning file=WeTransfer（${{matrix.target}}）::$(cat wetransfer.log | grep https)"
         echo "WETRANSFER_URL=$(cat wetransfer.log | grep https | cut -f3 -d" ")" >> $GITHUB_ENV
-        [ $UPLOAD_COWTRANSFER = true ] && echo "🔗 [Cowtransfer](${{ env.WETRANSFER_URL }})" >> release1.txt
+        [ $UPLOAD_COWTRANSFER = true ] && echo "🔗 [WETRANSFER](${{ env.WETRANSFER_URL }})" >> release1.txt
     
     - name: 自动发布固件
       uses: softprops/action-gh-release@v1
