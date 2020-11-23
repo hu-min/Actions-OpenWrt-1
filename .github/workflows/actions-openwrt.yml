@@ -26,6 +26,14 @@ on:
         default: 'release actions'
 
 
+#编辑任意指定文件触发开始编译（现在是修改根目录的'开启编译'触发编译）
+  push:
+    branches:
+      - main
+    paths:
+      - '开启编译'
+
+
 #定时触发开始编译(开启定时编译请先确认SSH处在关闭状态,要不然SSH没人管,会卡SSH编译失败)
 #  schedule:
 #    - cron: 0 8 */5 * *
@@ -51,7 +59,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [Project_xiaoyu_c5]  #[Lede_nanopi_r2s,Lede_newifi_d2,Lede_phicomm_k2p,Lede_phicomm_n1,Lede_redmi_ac2100,Lede_x86_64,Lede_xiaomi_r3pro,Lede_xiaoyu_c5,Lienol_phicomm_k2p,Lienol_phicomm_k3,Lienol_x86_64,Project_nanopi_r2s,Project_newifi_d2,Project_phicomm_k3,Project_phicomm_n1,Project_x86_64,Project_xiaomi_ac2100,Project_xiaomi_mir3g,Project_xiaoyu_c5]  
+        target: [Lede_x86_64]  #[Lede_nanopi_r2s,Lede_newifi_d2,Lede_phicomm_k2p,Lede_phicomm_n1,Lede_redmi_ac2100,Lede_x86_64,Lede_xiaomi_r3pro,Lede_xiaoyu_c5,Lienol_phicomm_k2p,Lienol_phicomm_k3,Lienol_x86_64,Project_nanopi_r2s,Project_newifi_d2,Project_phicomm_k3,Project_phicomm_n1,Project_x86_64,Project_xiaomi_ac2100,Project_xiaomi_mir3g,Project_xiaoyu_c5]  
 
      # [Lede_nanopi_r2s,Lede_newifi_d2,Lede_phicomm_k2p,Lede_phicomm_n1,Lede_redmi_ac2100,Lede_x86_64,Lede_xiaomi_r3pro,Lede_xiaoyu_c5]
      # [Lienol_phicomm_k2p,Lienol_phicomm_k3,Lienol_x86_64]
@@ -63,12 +71,12 @@ jobs:
       uses: actions/checkout@v2  
     
     - name: 删除在github空间的老固件
-      uses: ActionsRML/delete-workflow-runs@main
+      uses: ActionsRML/delete-workflow-runs@v2-dev
       with:
         token: ${{ github.token }}
         repository: ${{ github.repository }}       
-        retain_days: 1
-        keep_minimum_runs: 6
+        retain_days: 0
+        keep_minimum_runs: 6    #保留多少个固件不删除默认是6,低于6容易发生错误  
     
     - name: 删除自动发布的老固件
       uses: dev-drprasad/delete-older-releases@v0.1.0
@@ -234,11 +242,14 @@ jobs:
         curl -fsSL git.io/file-transfer | sh
         ./transfer cow --block 2621440 -s -p 64 --no-progress ${FIRMWARE} 2>&1 | tee cowtransfer.log
         echo "::warning file=奶牛快传（${{matrix.target}}）::$(cat cowtransfer.log | grep https)"
-        [ $UPLOAD_COWTRANSFER = true ] && echo "COWTRANSFER_URL=$(cat cowtransfer.log | grep https | cut -f3 -d" ")" >> $GITHUB_ENV
+        echo "COWTRANSFER_URL=$(cat cowtransfer.log | grep https | cut -f3 -d" ")" >> $GITHUB_ENV
+        [ $UPLOAD_COWTRANSFER = true ] && echo "COWTRANSFER_URL"
+        
         curl -fsSL git.io/file-transfer | sh
         ./transfer wet -s -p 16 --no-progress ${FIRMWARE} 2>&1 | tee wetransfer.log
         echo "::warning file=WeTransfer（${{matrix.target}}）::$(cat wetransfer.log | grep https)"
-        [ $UPLOAD_COWTRANSFER = true ] && echo "WETRANSFER_URL=$(cat wetransfer.log | grep https | cut -f3 -d" ")" >> $GITHUB_ENV
+        echo "WETRANSFER_URL=$(cat wetransfer.log | grep https | cut -f3 -d" ")" >> $GITHUB_ENV
+        [ $UPLOAD_COWTRANSFER = true ] && echo "WETRANSFER_URL"
     
     - name: 自动发布固件
       uses: softprops/action-gh-release@v1
