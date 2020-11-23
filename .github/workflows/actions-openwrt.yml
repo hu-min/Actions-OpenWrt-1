@@ -18,12 +18,12 @@ on:
         default: 'true actions'
       wxtz:
         description: '微信通知'
-        required: true
-        default: 'true actions'
+        required: false
+        default: 'true'
       release:
         description: '发布固件'
-        required: true
-        default: 'true actions'
+        required: false
+        default: 'true'
 
 
 #编辑任意指定文件触发开始编译（现在是修改根目录的'开启编译'触发编译）
