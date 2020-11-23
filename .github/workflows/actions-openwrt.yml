@@ -73,14 +73,16 @@ jobs:
     - name: 删除在github空间的老固件
       uses: ActionsRML/delete-workflow-runs@main
       with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        repository: ${{ github.repository }}       
         retain_days: 0
-        keep_minimum_runs: 10    #保留多少个固件不删除    
+        keep_minimum_runs: 5    #保留多少个固件不删除    
     
     - name: 删除自动发布的老固件
       uses: dev-drprasad/delete-older-releases@v0.1.0
       if: steps.organizer.outputs.status == 'success' && env.UPLOAD_RELEASE == 'true' || (github.event.inputs.release == 'release' && github.event.inputs.release  != 'false')
       with:
-        keep_latest: 10         #保留多少个发布不删除
+        keep_latest: 0         #保留多少个发布不删除
         delete_tags: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}    
