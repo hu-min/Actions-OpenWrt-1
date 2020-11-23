@@ -147,7 +147,7 @@ jobs:
           /bin/bash "build/${{matrix.target}}/$DIY_P1_SH"
           git clone -b $REPO_BRANCH --single-branch https://github.com/281677160/openwrt-package package/danshui
         fi
-        ./scripts/feeds update -a && ./scripts/feeds install -a && ./scripts/feeds install -a
+        ./scripts/feeds clean && ./scripts/feeds update -a && ./scripts/feeds install -a && ./scripts/feeds install -a
         if [ -n "$(ls -A "build/${{matrix.target}}/patches" 2>/dev/null)" ]; then
           find "build/${{matrix.target}}/patches" -type f -name '*.patch' -print0 | sort -z | xargs -I % -t -0 -n 1 sh -c "cat '%'  | patch -d './' -p1 --forward --no-backup-if-mismatch"
         fi
