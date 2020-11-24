@@ -1,4 +1,4 @@
-name: Delete old workflow runs
+name: 删除老固件和发布
 on:
   workflow_dispatch:
 
@@ -8,6 +8,7 @@ on:
 jobs:
   del_runs:
     runs-on: ubuntu-latest
+    name: 删除${{matrix.target}}
     steps:
     - name: 准备结束
       uses: actions/checkout@v2
@@ -22,7 +23,6 @@ jobs:
     
     - name: 删除自动发布的老固件
       uses: dev-drprasad/delete-older-releases@v0.1.0
-      if: env.UPLOAD_RELEASE == 'true' || (github.event.inputs.release == 'release' && github.event.inputs.release  != 'false')
       with:
         keep_latest: 8         #保留多少个发布不删除,最少保留一个
         delete_tags: true
