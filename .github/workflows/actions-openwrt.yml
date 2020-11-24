@@ -73,7 +73,7 @@ jobs:
     - name: 删除在github空间的老固件
       uses: Mattraks/delete-workflow-runs@main
       with:
-        token: ${{ secrets.REPO_TOKEN }}
+        token: ${{ github.token }}
         repository: ${{ github.repository }}       
         retain_days: 1
         keep_minimum_runs: 1
