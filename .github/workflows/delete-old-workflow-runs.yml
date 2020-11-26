@@ -1,9 +1,11 @@
 #
 #
-# 感谢p3terx大神的一键编译脚本
+# 说明：
 # 
-# Copyright (C) 2019 P3TERX <https://p3terx.com>
-# <https://github.com/P3TERX/Actions-OpenWrt.git>
+# ‘删除在github空间的老固件’相隔一段时间才会生效的
+#
+#
+# ‘删除自动发布的老固件’每次启动都生效
 #
 
 
