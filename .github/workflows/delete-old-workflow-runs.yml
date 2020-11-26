@@ -1,9 +1,18 @@
+#
+#
+# 感谢p3terx大神的一键编译脚本
+# 
+# Copyright (C) 2019 P3TERX <https://p3terx.com>
+# <https://github.com/P3TERX/Actions-OpenWrt.git>
+#
+
+
 name: delete-workflow-runs
 on:
   workflow_dispatch:
 
 #  schedule:
-#    - cron: '0 0 1 * *'
+#    - cron: 0 8 */5 * *
 
 jobs:
   del_runs:
