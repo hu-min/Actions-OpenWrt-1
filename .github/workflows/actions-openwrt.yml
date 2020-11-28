@@ -112,7 +112,6 @@ jobs:
         rm -rf package/ctcgfw/luci-theme-argonv3
         
     - name: Free up disk space
-      if: env.FREE_UP_DISK == 'true'
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
