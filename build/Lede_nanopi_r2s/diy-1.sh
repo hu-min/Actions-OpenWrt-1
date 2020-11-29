@@ -10,5 +10,8 @@
 
 rm -rf package/lean/luci-app-flowoffload
 rm -rf package/lean/luci-app-sfe
+rm -rf package/lean/luci-app-cpufreq
+
 
 svn co https://github.com/project-openwrt/openwrt/trunk/package/ctcgfw/luci-app-turboacc package/ctcgfw/luci-app-turboacc
+svn co https://github.com/project-openwrt/openwrt/trunk/package/lean/luci-app-cpufreq package/ctcgfw/luci-app-cpufreq
