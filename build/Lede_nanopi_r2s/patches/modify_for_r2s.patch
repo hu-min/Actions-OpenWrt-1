@@ -1,3 +1,34 @@
+diff --git a/package/ctcgfw/luci-app-turboacc/Makefile b/package/ctcgfw/luci-app-turboacc/Makefile
+index dfd78c845c..deb85f9246 100644
+--- a/package/ctcgfw/luci-app-turboacc/Makefile
++++ b/package/ctcgfw/luci-app-turboacc/Makefile
+@@ -22,7 +22,7 @@ LUCI_PKGARCH:=all
+ define Package/$(PKG_NAME)/config
+ config PACKAGE_$(PKG_NAME)_INCLUDE_flow-offload
+ 	bool "Include Flow Offload"
+-	depends on PACKAGE_$(PKG_NAME)_INCLUDE_shortcut-fe=n
++	#depends on PACKAGE_$(PKG_NAME)_INCLUDE_shortcut-fe=n
+ 	default y
+ 
+ config PACKAGE_$(PKG_NAME)_INCLUDE_shortcut-fe
+diff --git a/package/ctcgfw/luci-app-turboacc/root/etc/config/turboacc b/package/ctcgfw/luci-app-turboacc/root/etc/config/turboacc
+index 067aad2763..b221186ba4 100644
+--- a/package/ctcgfw/luci-app-turboacc/root/etc/config/turboacc
++++ b/package/ctcgfw/luci-app-turboacc/root/etc/config/turboacc
+@@ -1,9 +1,9 @@
+ 
+ config turboacc 'config'
+ 	option sw_flow '1'
+-	option hw_flow '1'
+-	option sfe_flow '1'
+-	option sfe_bridge '1'
++	option hw_flow '0'
++	option sfe_flow '0'
++	option sfe_bridge '0'
+ 	option sfe_ipv6 '0'
+ 	option bbr_cca '1'
+ 	option fullcone_nat '1'
+
 diff --git a/package/ctcgfw/luci-app-cpufreq/root/etc/config/cpufreq b/package/ctcgfw/luci-app-cpufreq/root/etc/config/cpufreq
 index 0e7eaede33..63908d1d53 100644
 --- a/package/ctcgfw/luci-app-cpufreq/root/etc/config/cpufreq
