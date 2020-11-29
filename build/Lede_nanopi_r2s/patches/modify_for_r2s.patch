@@ -1,5 +1,5 @@
 diff --git a/package/ctcgfw/luci-app-turboacc/Makefile b/package/ctcgfw/luci-app-turboacc/Makefile
-index dfd78c845c..deb85f9246 100644
+index 3a2876e..a533ce7 100644
 --- a/package/ctcgfw/luci-app-turboacc/Makefile
 +++ b/package/ctcgfw/luci-app-turboacc/Makefile
 @@ -22,7 +22,7 @@ LUCI_PKGARCH:=all
@@ -11,6 +11,7 @@ index dfd78c845c..deb85f9246 100644
  	default y
  
  config PACKAGE_$(PKG_NAME)_INCLUDE_shortcut-fe
+
 diff --git a/package/ctcgfw/luci-app-turboacc/root/etc/config/turboacc b/package/ctcgfw/luci-app-turboacc/root/etc/config/turboacc
 index 067aad2763..b221186ba4 100644
 --- a/package/ctcgfw/luci-app-turboacc/root/etc/config/turboacc
