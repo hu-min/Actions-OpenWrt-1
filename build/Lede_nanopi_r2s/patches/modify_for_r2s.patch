@@ -1,17 +1,3 @@
-diff --git a/package/lean/luci-app-turboacc/Makefile b/package/lean/luci-app-turboacc/Makefile
-index 3a2876e..a533ce7 100644
---- a/package/lean/luci-app-turboacc/Makefile
-+++ b/package/lean/luci-app-turboacc/Makefile
-@@ -22,7 +22,7 @@ LUCI_PKGARCH:=all
- define Package/$(PKG_NAME)/config
- config PACKAGE_$(PKG_NAME)_INCLUDE_flow-offload
- 	bool "Include Flow Offload"
--	depends on PACKAGE_$(PKG_NAME)_INCLUDE_shortcut-fe=n
-+	#depends on PACKAGE_$(PKG_NAME)_INCLUDE_shortcut-fe=n
- 	default y
- 
- config PACKAGE_$(PKG_NAME)_INCLUDE_shortcut-fe
-
 diff --git a/package/lean/luci-app-turboacc/root/etc/config/turboacc b/package/lean/luci-app-turboacc/root/etc/config/turboacc
 index 067aad2763..b221186ba4 100644
 --- a/package/lean/luci-app-turboacc/root/etc/config/turboacc
