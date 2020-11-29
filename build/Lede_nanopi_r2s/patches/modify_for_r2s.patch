@@ -28,17 +28,6 @@ index 067aad2763..b221186ba4 100644
  	option sfe_ipv6 '0'
  	option bbr_cca '1'
  	option fullcone_nat '1'
-diff --git a/package/lean/default-settings/files/zzz-default-settings b/package/lean/default-settings/files/zzz-default-settings
-index 0756870fe8..e841cc0035 100755
---- a/package/lean/default-settings/files/zzz-default-settings
-+++ b/package/lean/default-settings/files/zzz-default-settings
-@@ -61,4 +61,6 @@ rm -f /tmp/luci-indexcache
- 
- mv /etc/openwrt_banner /etc/banner
- 
-+sed -i 's/#devcrypto=devcrypto/devcrypto=devcrypto/g;s/#USE_SOFTDRIVERS = 2/USE_SOFTDRIVERS = 1/g' /etc/ssl/openssl.conf
-+
- exit 0
 diff --git a/package/lean/luci-app-cpufreq/root/etc/config/cpufreq b/package/lean/luci-app-cpufreq/root/etc/config/cpufreq
 index 0e7eaede33..63908d1d53 100644
 --- a/package/lean/luci-app-cpufreq/root/etc/config/cpufreq
