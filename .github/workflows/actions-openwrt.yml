@@ -132,8 +132,6 @@ jobs:
         fi
         
         if [ build/${{matrix.target}} == "openwrt" ]; then
-          echo "Apply files..."
-          elif [ build/${{matrix.target}} == "build/${{matrix.target}}" ]; then
           git clone -b $REPO_BRANCH --single-branch https://github.com/281677160/openwrt-package package/danshui
         fi
         
