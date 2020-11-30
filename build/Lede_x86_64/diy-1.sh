@@ -9,4 +9,4 @@
 # 软件包地址：https://github.com/281677160/openwrt-package
 rm -rf package/lean/autocore
 
-git clone https://github.com/garypang13/autocore package/lean
+git clone https://github.com/garypang13/autocore package/lean/autocore
