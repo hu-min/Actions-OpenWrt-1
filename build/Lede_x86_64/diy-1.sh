@@ -10,3 +10,4 @@
 rm -rf package/lean/autocore
 
 git clone https://github.com/garypang13/autocore package/lean/autocore
+rm -rf package/lean/{samba4,luci-app-samba4,luci-app-ttyd}
