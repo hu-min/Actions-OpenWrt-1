@@ -10,3 +10,5 @@
 rm -rf package/lean/autocore
 
 git clone https://github.com/garypang13/autocore package/lean/autocore
+
+sed -i 's/samba/samba4/' package/lean/default-settings/files/zzz-default-settings
