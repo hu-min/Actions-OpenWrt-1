@@ -32,7 +32,7 @@ kmod-usb2 kmod-usb3 kmod-usb-storage kmod-usb-storage-extras kmod-usb-storage-ua
 kmod-usb-net kmod-usb-net-asix-ax88179 kmod-usb-net-rtl8150 kmod-usb-net-rtl8152 \
 blkid lsblk parted fdisk cfdisk losetup resize2fs tune2fs pv unzip \
 lscpu htop iperf3 curl lm-sensors install-program 
-"
+" package/lean/default-settings/files/zzz-default-settings
 
 
 # 修改插件名字（修改名字后不知道会不会对插件功能有影响，自己多测试）
