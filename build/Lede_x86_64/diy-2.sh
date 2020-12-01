@@ -22,9 +22,6 @@ sed -i 's@.*CYXluq4wUazHjmCDBCqXF*@#&@g' package/lean/default-settings/files/zzz
 #sed -i 's/KERNEL_PATCHVER:=5.4/KERNEL_PATCHVER:=4.19/g' target/linux/x86/Makefile
 #sed -i 's/KERNEL_TESTING_PATCHVER:=5.4/KERNEL_TESTING_PATCHVER:=4.19/g' target/linux/x86/Makefile
 
-
-sed -i 's/samba/samba4/' package/lean/default-settings/files/zzz-default-settings
-
 packages=" \
 brcmfmac-firmware-43430-sdio brcmfmac-firmware-43455-sdio kmod-brcmfmac wpad \
 kmod-fs-ext4 kmod-fs-vfat kmod-fs-exfat dosfstools e2fsprogs antfs-mount \
@@ -32,7 +29,7 @@ kmod-usb2 kmod-usb3 kmod-usb-storage kmod-usb-storage-extras kmod-usb-storage-ua
 kmod-usb-net kmod-usb-net-asix-ax88179 kmod-usb-net-rtl8150 kmod-usb-net-rtl8152 \
 blkid lsblk parted fdisk cfdisk losetup resize2fs tune2fs pv unzip \
 lscpu htop iperf3 curl lm-sensors install-program 
-" package/lean/default-settings/files/zzz-default-settings
+"
 
 
 # 修改插件名字（修改名字后不知道会不会对插件功能有影响，自己多测试）
