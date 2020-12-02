@@ -117,14 +117,6 @@ jobs:
            rm -rf package/lean/luci-theme-argon
            rm -rf package/lean/k3screenctrl
         fi
-
-    - name: Free up disk space
-      env:
-        DEBIAN_FRONTEND: noninteractive
-      run: |
-        sudo mkdir -p -m 777 /mnt/openwrt/dl /mnt/openwrt/staging_dir
-        ln -sf /mnt/openwrt/dl openwrt/dl
-        ln -sf /mnt/openwrt/staging_dir openwrt/staging_dir
     
     - name: 加载源,patch补丁和自定义设置
       run: |
@@ -171,11 +163,11 @@ jobs:
         make download -j8
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
-        df -hT
     
     - name: 开始编译固件
       id: compile
       run: |
+        df -hT $PWD
         cd openwrt
         echo -e "$(($(nproc)+1)) thread compile"
         make -j$(($(nproc)+1)) || make -j1 V=s
