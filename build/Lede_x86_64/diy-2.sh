@@ -37,6 +37,18 @@ for x in $packages; do
 done
 
 
+
+packages=" \
+usbutils ntfs-3g badblocks kmod-scsi-core kmod-usb-core kmod-usb-ohci-pci kmod-usb-uhci \ 
+kmod-usb2-pci kmod-usb3 kmod-usb-storage kmod-usb-storage-extras kmod-usb-storage-uas kmod-fs-ext4 kmod-fs-vfat kmod-fuse \
+"
+for x in $packages; do
+    sed -i "/DEFAULT_PACKAGES/ s/$/ $x/" target/linux/x86/Makefile
+done
+
+
+
+
 # 修改插件名字（修改名字后不知道会不会对插件功能有影响，自己多测试）
 sed -i 's/"BaiduPCS Web"/"百度网盘"/g' package/lean/luci-app-baidupcs-web/luasrc/controller/baidupcs-web.lua
 sed -i 's/cbi("qbittorrent"),_("qBittorrent")/cbi("qbittorrent"),_("BT下载")/g' package/lean/luci-app-qbittorrent/luasrc/controller/qbittorrent.lua
