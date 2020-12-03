@@ -20,8 +20,9 @@ sed -i 's@.*CYXluq4wUazHjmCDBCqXF*@#&@g' package/lean/default-settings/files/zzz
 
 packages=" \
 brcmfmac-firmware-43430-sdio brcmfmac-firmware-43455-sdio kmod-brcmfmac wpad \
-kmod-fs-ext4 kmod-fs-vfat kmod-fs-exfat dosfstools e2fsprogs antfs-mount \
-kmod-usb2 kmod-usb3 kmod-usb-storage kmod-usb-storage-extras kmod-usb-storage-uas \
+block-mountk mod-fs-ext4 kmod-fs-vfat kmod-scsi-core kmod-fuse kmod-fs-exfat dosfstools e2fsprogs antfs-mount \
+usbutils ntfs-3g badblocks \
+kmod-usb-core kmod-usb2-pci kmod-usb-ohci-pci kmod-usb-uhci kmod-usb3 kmod-usb-storage kmod-usb-storage-extras kmod-usb-storage-uas \
 kmod-usb-net kmod-usb-net-asix-ax88179 kmod-usb-net-rtl8150 kmod-usb-net-rtl8152 \
 blkid lsblk parted fdisk cfdisk losetup resize2fs tune2fs pv unzip \
 lscpu htop iperf3 curl lm-sensors install-program 
