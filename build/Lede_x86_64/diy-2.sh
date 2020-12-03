@@ -23,8 +23,12 @@ sed -i 's@.*CYXluq4wUazHjmCDBCqXF*@#&@g' package/lean/default-settings/files/zzz
 #sed -i 's/KERNEL_TESTING_PATCHVER:=5.4/KERNEL_TESTING_PATCHVER:=4.19/g' target/linux/x86/Makefile
 
 
-
-
+packages="kmod-fs-ext4 kmod-fs-vfat kmod-fs-exfat block-mount usbutils ntfs-3g badblocks kmod-scsi-core \
+kmod-usb-core kmod-usb-ohci kmod-usb-uhci kmod-usb2 kmod-usb3 kmod-usb-storage kmod-usb-storage-extras kmod-usb-storage-uas \
+"
+for x in $packages; do
+    sed -i '/DEFAULT_PACKAGES/a $x/' target/linux/x86/Makefile
+done
 
 
 
