@@ -1,16 +1,16 @@
 #!/bin/sh
 
- 
+
 
 # Copyright (C) 2009 OpenWrt.org  (C) 2010 OpenWrt.org.cn
 
- 
+
 
 blkdev=`dirname $DEVPATH`
 
 if [ `basename $blkdev` != "block" ]; then
 
- 
+
 
     device=`basename $DEVPATH`
 
@@ -38,9 +38,9 @@ if [ `basename $blkdev` != "block" ]; then
 
                         isvfat=""
 
-                fi 
+                fi
 
- 
+
 
                 # mount with ntfs-3g if possible, else with default mount
 
@@ -82,6 +82,6 @@ if [ `basename $blkdev` != "block" ]; then
 
     esac
 
- 
+
 
 fi
