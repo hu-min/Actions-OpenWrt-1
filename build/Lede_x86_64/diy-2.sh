@@ -23,14 +23,6 @@ sed -i 's@.*CYXluq4wUazHjmCDBCqXF*@#&@g' package/lean/default-settings/files/zzz
 #sed -i 's/KERNEL_TESTING_PATCHVER:=5.4/KERNEL_TESTING_PATCHVER:=4.19/g' target/linux/x86/Makefile
 
 
-packages="kmod-fs-ext4 kmod-fs-vfat kmod-fs-exfat block-mount usbutils ntfs-3g badblocks kmod-scsi-core \
-kmod-usb-core kmod-usb-ohci kmod-usb-uhci kmod-usb2 kmod-usb3 kmod-usb-storage kmod-usb-storage-extras kmod-usb-storage-uas \
-"
-for x in $packages; do
-    sed -i '/DEFAULT_PACKAGES/a $x/' target/linux/x86/Makefile
-done
-
-
 
 # 修改插件名字（修改名字后不知道会不会对插件功能有影响，自己多测试）
 sed -i 's/"BaiduPCS Web"/"百度网盘"/g' package/lean/luci-app-baidupcs-web/luasrc/controller/baidupcs-web.lua
