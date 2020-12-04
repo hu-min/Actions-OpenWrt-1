@@ -13,16 +13,3 @@ index 0939306..446ade3 100644
  			[ -e /proc/sys/net/ipv6 ] && uci set network.$1.ip6assign='60'
  		;;
 
-diff --git a/target/linux/x86/Makefile b/target/linux/x86/Makefile
-index ee276ad..f77406f 100644
---- a/target/linux/x86/Makefile
-+++ b/target/linux/x86/Makefile
-@@ -20,6 +20,7 @@ KERNELNAME:=bzImage
- include $(INCLUDE_DIR)/target.mk
- 
- DEFAULT_PACKAGES += partx-utils mkf2fs fdisk e2fsprogs wpad kmod-usb-hid kmod-mmc-spi kmod-sdhci \
-+block-mount usbutils ntfs-3g badblocks kmod-scsi-core kmod-usb-core kmod-usb-ohci kmod-usb-uhci kmod-usb3 kmod-usb2 \
- kmod-ath5k kmod-ath9k kmod-ath9k-htc kmod-ath10k kmod-rt2800-usb kmod-e1000e kmod-igb kmod-igbvf kmod-ixgbe kmod-pcnet32 kmod-tulip kmod-vmxnet3 kmod-i40e kmod-i40evf kmod-r8125 kmod-8139cp kmod-8139too kmod-fs-f2fs \
- htop lm-sensors autocore-x86 automount autosamba luci-app-adbyby-plus luci-app-ipsec-vpnd luci-proto-bonding luci-app-unblockmusic luci-app-zerotier luci-app-xlnetacc ddns-scripts_aliyun ddns-scripts_dnspod ca-certificates \
- ath10k-firmware-qca988x ath10k-firmware-qca9888 ath10k-firmware-qca9984 brcmfmac-firmware-43602a1-pcie \
-
