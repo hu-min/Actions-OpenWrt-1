@@ -24,8 +24,7 @@ sed -i 's@.*CYXluq4wUazHjmCDBCqXF*@#&@g' package/lean/default-settings/files/zzz
 
 
 packages="
-kmod-fs-ext4 kmod-fs-vfat kmod-fs-exfat dosfstools e2fsprogs antfs-mount ntfs-3g badblocks \
-usbutils kmod-usb-ohci kmod-usb-uhci kmod-usb2 kmod-usb3 kmod-usb-storage-uas \
+block-mount usbutils ntfs-3g badblocks kmod-scsi-core kmod-usb-core kmod-usb-ohci kmod-usb-uhci kmod-usb3 kmod-usb2 \
 "
 for x in $packages; do
     sed -i "/DEFAULT_PACKAGES/ s/$/ $x/" target/linux/x86/Makefile
