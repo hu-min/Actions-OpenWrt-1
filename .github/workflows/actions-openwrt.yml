@@ -188,21 +188,15 @@ jobs:
         mv -f openwrt/bin/targets/*/*/*.tar.gz reform/openwrt
         cd reform
         sudo ./gen_openwrt -d -k latest
+        
         devices=("phicomm-n1" "vplus" "beikeyun" "l1pro" "s905x3")
-        cd out
-        for x in ${devices[*]}; do
-          cd $x
-          filename=$(ls | awk -F '.img' '{print $1}')
-          gzip *.img
-          cd ../
-          echo "firmware_$x=$filename" >> $GITHUB_ENV
-        done
+        cd ../
+        mv -f reform/out/*/*.img openwrt/bin/targets/*/*
     
     - name: 整理固件文件夹
       id: organizer
       run: |
         mkdir config
-        mv -f reform/out/*.img openwrt/bin/targets/*/*
         find openwrt/bin/targets/ -name "*config.buildinfo*" | xargs -i mv -f {} config
         cd openwrt/bin/targets/*/*
         rm -rf packages && mkdir packages
