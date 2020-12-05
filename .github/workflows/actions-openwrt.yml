@@ -194,6 +194,8 @@ jobs:
           cd $x
           filename=$(ls | awk -F '.img' '{print $1}')
           gzip *.img
+          cd ../
+          echo "firmware_$x=$filename" >> $GITHUB_ENV
         done
     
     - name: 整理固件文件夹
