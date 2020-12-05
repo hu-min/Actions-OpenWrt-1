@@ -105,8 +105,8 @@ jobs:
       working-directory: /workdir
       run: |
         df -hT $PWD
+        git clone -b master --single-branch https://github.com/tuanqing/mknop reform
         git clone -b $REPO_BRANCH --single-branch $REPO_URL openwrt
-        git clone https://github.com/HOT-POT1/mknop reform
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
         cd openwrt
         if [ build/${{matrix.target}} != build/openwrt ]; then
@@ -185,7 +185,7 @@ jobs:
     
     - name: 打包N1/vplus/beikeyun/l1pro/s905x3固件
       run: |
-        if [ -n "openwrt/bin/targets/*/*/.tar.gz 2>/dev/null" ]; then
+        if [ -n "openwrt/bin/targets/armvirt 2>/dev/null" ]; then
          mv -f openwrt/bin/targets/*/*/*.tar.gz reform/openwrt
          cd reform
          sudo ./gen_openwrt -d -k latest
