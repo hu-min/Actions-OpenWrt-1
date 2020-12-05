@@ -185,8 +185,8 @@ jobs:
     
     - name: 打包N1/vplus/beikeyun/l1pro/s905x3固件
       run: |
-        if [ -n "oplede/bin/targets/*/*/.tar.gz 2>/dev/null" ]; then
-         mv -f oplede/bin/targets/*/*/*.tar.gz reform/openwrt
+        if [ -n "openwrt/bin/targets/*/*/.tar.gz 2>/dev/null" ]; then
+         mv -f openwrt/bin/targets/*/*/*.tar.gz reform/openwrt
          cd reform
          sudo ./gen_openwrt -d -k latest
          devices=("phicomm-n1" "vplus" "beikeyun" "l1pro" "s905x3")
