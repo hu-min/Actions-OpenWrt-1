@@ -183,15 +183,20 @@ jobs:
         name: OpenWrt_bin_${{matrix.target}}_${{ env.date }}
         path: openwrt/bin
     
+    - name: 打包N1/vplus/beikeyun/l1pro/s905x3固件
+      run: |
+        if [ -n "oplede/bin/targets/*/*/.tar.gz 2>/dev/null" ]; then
+         mv -f oplede/bin/targets/*/*/*.tar.gz reform/openwrt
+         cd reform
+         sudo ./gen_openwrt -d -k latest
+         devices=("phicomm-n1" "vplus" "beikeyun" "l1pro" "s905x3")
+         cd ../
+         mv -f reform/out/*/*.img openwrt/bin/targets/*/*
+        fi
+    
     - name: 整理固件文件夹
       id: organizer
       run: |
-        mv -f openwrt/bin/targets/*/*/*.tar.gz reform/openwrt
-        cd reform
-        sudo ./gen_openwrt -d -k latest
-        devices=("phicomm-n1" "vplus" "beikeyun" "l1pro" "s905x3")
-        cd ../
-        mv -f reform/out/*/*.img openwrt/bin/targets/*/*
         mkdir config
         find openwrt/bin/targets/ -name "*config.buildinfo*" | xargs -i mv -f {} config
         cd openwrt/bin/targets/*/*
