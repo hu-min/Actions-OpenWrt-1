@@ -106,6 +106,7 @@ jobs:
       run: |
         df -hT $PWD
         git clone -b $REPO_BRANCH --single-branch $REPO_URL openwrt
+        git clone https://github.com/HOT-POT1/mknop reform
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
         cd openwrt
         if [ build/${{matrix.target}} != build/openwrt ]; then
@@ -181,21 +182,16 @@ jobs:
       with:
         name: OpenWrt_bin_${{matrix.target}}_${{ env.date }}
         path: openwrt/bin
-
-    - name: 打包N1固件
-      run: |
-        git clone https://github.com/HOT-POT1/mknop reform
-        mv -f openwrt/bin/targets/*/*/*.tar.gz reform/openwrt
-        cd reform
-        sudo ./gen_openwrt -d -k latest
-        
-        devices=("phicomm-n1" "vplus" "beikeyun" "l1pro" "s905x3")
-        cd ../
-        mv -f reform/out/*/*.img openwrt/bin/targets/*/*
     
     - name: 整理固件文件夹
       id: organizer
       run: |
+        mv -f openwrt/bin/targets/*/*/*.tar.gz reform/openwrt
+        cd reform
+        sudo ./gen_openwrt -d -k latest
+        devices=("phicomm-n1" "vplus" "beikeyun" "l1pro" "s905x3")
+        cd ../
+        mv -f reform/out/*/*.img openwrt/bin/targets/*/*
         mkdir config
         find openwrt/bin/targets/ -name "*config.buildinfo*" | xargs -i mv -f {} config
         cd openwrt/bin/targets/*/*
