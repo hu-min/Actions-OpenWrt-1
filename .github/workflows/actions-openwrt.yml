@@ -182,10 +182,25 @@ jobs:
         name: OpenWrt_bin_${{matrix.target}}_${{ env.date }}
         path: openwrt/bin
 
+    - name: 打包N1固件
+      run: |
+        git clone https://github.com/HOT-POT1/mknop reform
+        mv -f openwrt/bin/targets/*/*/*.tar.gz reform/openwrt
+        cd reform
+        sudo ./gen_openwrt -d -k latest
+        devices=("phicomm-n1" "vplus" "beikeyun" "l1pro" "s905x3")
+        cd out
+        for x in ${devices[*]}; do
+          cd $x
+          filename=$(ls | awk -F '.img' '{print $1}')
+          gzip *.img
+        done
+    
     - name: 整理固件文件夹
       id: organizer
       run: |
         mkdir config
+        mv -f reform/out/*.img openwrt/bin/targets/*/*
         find openwrt/bin/targets/ -name "*config.buildinfo*" | xargs -i mv -f {} config
         cd openwrt/bin/targets/*/*
         rm -rf packages && mkdir packages
@@ -201,27 +216,7 @@ jobs:
         find -name "*squashfs-rootfs*" | xargs -i mv -f {} packages
         rm -rf packages
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
-        echo "::set-output name=status::success"
-    
-    
-    
-    - name: Build firmware
-      run: |
-          git clone https://github.com/HOT-POT1/mknop
-          mv -f openwrt/bin/targets/*/*/*.tar.gz mknop/openwrt
-          cd mknop
-          sudo ./gen_openwrt -d -k latest
-          
-          devices=("phicomm-n1" "vplus" "beikeyun" "l1pro" "s905x3")
-          cd out
-          for x in ${devices[*]}; do
-            cd $x
-            filename=$(ls | awk -F '.img' '{print $1}')
-            gzip *.img
-            cd ../
-          mv -f mknop/out/.img.gz openwrt/bin/targets/*/*/* ./
-          done    
-    
+        echo "::set-output name=status::success
     
     - name: 上传.config配置文件在github空间
       uses: actions/upload-artifact@v2
