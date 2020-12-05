@@ -203,6 +203,26 @@ jobs:
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         echo "::set-output name=status::success"
     
+    
+    
+    - name: Build firmware
+      run: |
+          git clone https://github.com/HOT-POT1/mknop
+          mv -f openwrt/bin/targets/*/*/*.tar.gz mknop/openwrt
+          cd mknop
+          sudo ./gen_openwrt -d -k latest
+          
+          devices=("phicomm-n1" "vplus" "beikeyun" "l1pro" "s905x3")
+          cd out
+          for x in ${devices[*]}; do
+            cd $x
+            filename=$(ls | awk -F '.img' '{print $1}')
+            gzip *.img
+            cd ../
+          mv -f mknop/out/.img.gz openwrt/bin/targets/*/*/* ./
+          done    
+    
+    
     - name: 上传.config配置文件在github空间
       uses: actions/upload-artifact@v2
       if: steps.organizer.outputs.status == 'success' && env.UPLOAD_CONFIG == 'true'
