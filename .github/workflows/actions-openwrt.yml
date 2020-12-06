@@ -186,12 +186,12 @@ jobs:
       id: organizer
       run: |
         if [ -n "$(ls -A "openwrt/bin/targets/armvirt" 2>/dev/null)" ]; then
-         mv -f openwrt/bin/targets/armvirt/*/*.tar.gz reform/openwrt
+         mv -f openwrt/bin/targets/armvirt/64/*.tar.gz reform/openwrt
          cd reform
          sudo ./gen_openwrt -d -k latest
          devices=("phicomm-n1" "vplus" "beikeyun" "l1pro" "s905x3")
          cd ../
-         mv -f reform/out/*/*.img openwrt/bin/targets/armvirt/*
+         mv -f reform/out/*/*.img openwrt/bin/targets/armvirt/64
         fi
         mkdir config
         find openwrt/bin/targets/ -name "*config.buildinfo*" | xargs -i mv -f {} config
