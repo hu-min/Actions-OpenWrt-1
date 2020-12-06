@@ -201,7 +201,7 @@ jobs:
          done
 
            cd ../ && cd ../
-           mv -f reform/out/*/*.img.gz openwrt/bin/targets/armvirt/64/n1
+           cp reform/out/*/*.img.gz openwrt/bin/targets/armvirt/64/n1
         fi
     
     - name: 整理固件文件夹
