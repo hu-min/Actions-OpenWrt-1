@@ -99,7 +99,6 @@ jobs:
       working-directory: /workdir
       run: |
         df -hT $PWD
-        svn co https://github.com/281677160/N1/trunk ./reform
         git clone -b $REPO_BRANCH --single-branch $REPO_URL openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
         cd openwrt
@@ -114,6 +113,7 @@ jobs:
     
     - name: 打包N1/vplus/beikeyun/l1pro/s905x3固件
       run: |
+        svn co https://github.com/281677160/N1/trunk ./reform
         if [ -n "$(ls -A "openwrt/package/base-files" 2>/dev/null)" ]; then
          mv -f openwrt/package/base-files/Makefile reform/openwrt
          mv -f reform/openwrt/Makefile openwrt/package/boot
