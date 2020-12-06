@@ -111,16 +111,9 @@ jobs:
            rm -rf package/lean/k3screenctrl
         fi
     
-    - name: 打包N1/vplus/beikeyun/l1pro/s905x3固件
-      run: |
-        svn co https://github.com/281677160/N1/trunk ./reform
-        if [ -n "$(ls -A "openwrt/package/x86" 2>/dev/null)" ]; then
-         mv -f openwrt/package/base-files/Makefile reform/openwrt
-         mv -f reform/openwrt/Makefile openwrt/package/boot
-        fi
-    
     - name: 加载源,patch补丁和自定义设置
       run: |
+        svn co https://github.com/281677160/N1/trunk reform
         cp -Rf `find ./ -maxdepth 1 -type d ! -path './openwrt' ! -path './'` openwrt
         cd openwrt
         if [ -f "build/${{matrix.target}}/$DIY_P1_SH" ]; then
@@ -153,6 +146,13 @@ jobs:
         make && sudo make install
         popd
  
+    - name: 打包N1/vplus/beikeyun/l1pro/s905x3固件
+      run: |
+        if [ -n "$(ls -A "openwrt/package/base-files" 2>/dev/null)" ]; then
+         mv -f openwrt/package/base-files/Makefile reform/openwrt
+         mv -f reform/openwrt/Makefile openwrt/package/boot
+        fi
+    
     - name: SSH远程连接服务器配置固件
       uses: garypang13/debugger-action@master
       if: env.SSH_ACTIONS == 'true' || (github.event.inputs.ssh == 'ssh' && github.event.inputs.ssh  != 'false')
