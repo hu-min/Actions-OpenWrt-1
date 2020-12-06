@@ -186,7 +186,7 @@ jobs:
       run: |
         if [ -d ... "$(ls -A "openwrt/bin/targets/armvirt" 2>/dev/null)" ]; then 
          mkdir -p openwrt/bin/targets/armvirt/64/n1
-         mv -f openwrt/bin/targets/armvirt/64/*.tar.gz reform/openwrt
+         cp openwrt/bin/targets/armvirt/64/*.tar.gz reform/openwrt
          cd reform
          sudo ./gen_openwrt -d -k latest
 
