@@ -191,7 +191,7 @@ jobs:
          sudo ./gen_openwrt -d -k latest
          devices=("phicomm-n1" "vplus" "beikeyun" "l1pro" "s905x3")
          cd ../
-         mv -f reform/openwrt/*.img openwrt/bin/targets/*/*/
+         mv -f reform/out/*/*.img openwrt/bin/targets/*/*/
         fi
         mkdir config
         find openwrt/bin/targets/ -name "*config.buildinfo*" | xargs -i mv -f {} config
