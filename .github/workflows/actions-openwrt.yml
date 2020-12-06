@@ -125,7 +125,7 @@ jobs:
           chmod +x build/${{matrix.target}}/$DIY_P1_SH
           /bin/bash "build/${{matrix.target}}/$DIY_P1_SH"
         fi
-        if [ build/${{matrix.target}} == build/openwrt || build/Lede_phicomm_n1 ]; then
+        if [ build/${{matrix.target}} == build/openwrt,build/${{matrix.target}} == build/Lede_phicomm_n1 ]; then
           git clone -b $REPO_BRANCH --single-branch https://github.com/281677160/openwrt-package package/danshui
         fi
         ./scripts/feeds clean && ./scripts/feeds update -a && ./scripts/feeds install -a && ./scripts/feeds install -a
