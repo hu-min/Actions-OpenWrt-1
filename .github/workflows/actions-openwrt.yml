@@ -184,7 +184,8 @@ jobs:
     
     - name: 整理固件文件夹
       run: |
-        if [ openwrt/bin/targets/armvirt == openwrt/bin/targets/armvirt ]; then
+        if [ -d ... "$(ls -A "openwrt/bin/targets/armvirt" 2>/dev/null)" ]; then 
+         mkdir -p openwrt/bin/targets/armvirt/64/n1
          mv -f openwrt/bin/targets/armvirt/64/*.tar.gz reform/openwrt
          cd reform
          sudo ./gen_openwrt -d -k latest
@@ -200,7 +201,7 @@ jobs:
          done
 
            cd ../ && cd ../
-           mv -f reform/out/*/*.img.gz openwrt/bin/targets/armvirt/64
+           mv -f reform/out/*/*.img.gz openwrt/bin/targets/armvirt/64/n1
         fi
     
     - name: 整理固件文件夹
