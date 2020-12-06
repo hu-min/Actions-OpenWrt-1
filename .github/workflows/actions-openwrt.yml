@@ -91,6 +91,11 @@ jobs:
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
+        sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
+        sudo -E apt-get -qq update -y
+        sudo -E apt-get -qq install -y build-essential asciidoc binutils bzip2 gawk gettext git libc6-dev libncurses5 libtinfo-dev libtinfo5 ncurses-doc libncurses5-dev libz-dev patch python3 python2.7 unzip zlib1g-dev lib32gcc1 subversion flex uglifyjs git-core gcc-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils upx libelf-dev autoconf automake libtool autopoint device-tree-compiler g++-multilib antlr3 gperf wget curl swig rsync
+        sudo -E apt-get -qq autoremove -y --purge
+        sudo -E apt-get -qq clean -y
         sudo timedatectl set-timezone "$TZ"
         sudo mkdir -p /workdir
         sudo chown $USER:$GROUPS /workdir
@@ -145,13 +150,6 @@ jobs:
         pushd po2lmo
         make && sudo make install
         popd
- 
-    - name: 打包N1/vplus/beikeyun/l1pro/s905x3固件
-      run: |
-        if [ -n "$(ls -A "openwrt/package/base-files" 2>/dev/null)" ]; then
-         mv -f openwrt/package/base-files/Makefile reform/openwrt
-         mv -f reform/openwrt/Makefile openwrt/package/boot
-        fi
     
     - name: SSH远程连接服务器配置固件
       uses: garypang13/debugger-action@master
@@ -184,20 +182,17 @@ jobs:
         name: OpenWrt_bin_${{matrix.target}}_${{ env.date }}
         path: openwrt/bin
     
-    - name: 打包N1/vplus/beikeyun/l1pro/s905x3固件
+    - name: 整理固件文件夹
+      id: organizer
       run: |
-        if [ -n "openwrt/bin/targets/armvirt 2>/dev/null" ]; then
+        if [ -n "$(ls -A "openwrt/bin/targets/armvirt" 2>/dev/null)" ]; then
          mv -f openwrt/bin/targets/*/*/*.tar.gz reform/openwrt
          cd reform
          sudo ./gen_openwrt -d -k latest
          devices=("phicomm-n1" "vplus" "beikeyun" "l1pro" "s905x3")
          cd ../
-         mv -f reform/out/*/*.img openwrt/bin/targets/*/*
+         mv -f reform/openwrt/*.img openwrt/bin/targets/*/*/
         fi
-    
-    - name: 整理固件文件夹
-      id: organizer
-      run: |
         mkdir config
         find openwrt/bin/targets/ -name "*config.buildinfo*" | xargs -i mv -f {} config
         cd openwrt/bin/targets/*/*
