@@ -184,7 +184,7 @@ jobs:
     
     - name: 整理固件文件夹
       run: |
-        if [ -d ... "$(ls -A "openwrt/bin/targets/armvirt" 2>/dev/null)" ]; then 
+        if [ openwrt/bin/targets/armvirt ]; then 
          mkdir -p openwrt/bin/targets/armvirt/64/n1
          cp openwrt/bin/targets/armvirt/64/*.tar.gz reform/openwrt
          cd reform
