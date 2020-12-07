@@ -186,9 +186,8 @@ jobs:
     
     - name: 整理固件文件夹
       run: |
-        if [ -n "$(ls -A "openwrt/bin/targets/armvirt/64" 2>/dev/null)" ]; then 
-         mkdir -p openwrt/bin/targets/armvirt/64/n1
-         cp openwrt/bin/targets/armvirt/64/*.tar.gz reform/openwrt
+        if [ -n "$(ls -A "openwrt/bin/targets/armvirt" 2>/dev/null)" ]; then
+         mv -f openwrt/bin/targets/armvirt/*/*.tar.gz reform/openwrt
          cd reform
          sudo ./gen_openwrt -d -k latest
          devices=("phicomm-n1" "vplus" "beikeyun" "l1pro" "s905x3")
@@ -201,7 +200,7 @@ jobs:
            echo "firmware_$x=$filename" >> $GITHUB_ENV
          done
            cd ../ && cd ../
-           cp reform/out/*/*.img.gz openwrt/bin/targets/armvirt/64/n1
+           mv -f reform/out/*/*.img.gz openwrt/bin/targets/armvirt/*
         fi
     
     
