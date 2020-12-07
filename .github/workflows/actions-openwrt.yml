@@ -186,7 +186,7 @@ jobs:
     
     - name: 整理固件文件夹
       run: |
-        if [ build/${{matrix.target}} = build/Lede_phicomm_n1 ] [ build/${{matrix.target}} = build/Project_phicomm_n1 ]; then 
+        if [ -n "$(ls -A "openwrt/bin/targets/armvirt/64" 2>/dev/null)" ]; then 
          mkdir -p openwrt/bin/targets/armvirt/64/n1
          cp openwrt/bin/targets/armvirt/64/*.tar.gz reform/openwrt
          cd reform
