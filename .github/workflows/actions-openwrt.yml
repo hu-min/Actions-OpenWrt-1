@@ -184,7 +184,7 @@ jobs:
         path: openwrt/bin
     
     
-    - name: 打包"phicomm-n1" "vplus" "beikeyun" "l1pro" "s905x3"
+    - name: 打包n1、vplus、beikeyun、l1pro、s905x3固件
       run: |
         if [ -n "$(ls -A "openwrt/bin/targets/armvirt" 2>/dev/null)" ]; then
          mv -f openwrt/bin/targets/armvirt/*/*.tar.gz reform/openwrt
