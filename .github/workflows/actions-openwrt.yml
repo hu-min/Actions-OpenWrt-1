@@ -39,6 +39,7 @@ on:
 env: 
   REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
   SCKEY: ${{ secrets.SCKEY }}
+  DIY_SCRIPT: build/Lede_x86_64/Scripts/diy-script.sh
   TZ: Asia/Shanghai
 
 jobs: 
@@ -71,7 +72,6 @@ jobs:
         echo "WXFB_MESSAGE=${WXFB_MESSAGE}" >> $GITHUB_ENV
         echo "DIY_P1_SH=${DIY_P1_SH}" >> $GITHUB_ENV
         echo "DIY_P2_SH=${DIY_P2_SH}" >> $GITHUB_ENV
-        echo "DIY_SCRIPT=scripts/diy-script.sh" >> $GITHUB_ENV
         echo "SSH_ACTIONS=${SSH_ACTIONS}" >> $GITHUB_ENV
         echo "UPLOAD_BIN_DIR=${UPLOAD_BIN_DIR}" >> $GITHUB_ENV
         echo "UPLOAD_CONFIG=${UPLOAD_CONFIG}" >> $GITHUB_ENV
