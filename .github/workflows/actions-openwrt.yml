@@ -41,7 +41,7 @@ env:
   SCKEY: ${{ secrets.SCKEY }}
   DIY_SCRIPT: Scripts/diy-script.sh
   TZ: Asia/Shanghai
-  GITHUB_RELEASE: ${Github}/releases
+  GITHUB_RELEASE: ${{Github}}/releases
 
 jobs: 
   build:
