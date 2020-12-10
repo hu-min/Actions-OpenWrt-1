@@ -4,7 +4,7 @@
 # AutoUpdate for Openwrt
 
 Version=V4.3
-DEFAULT_DEVICE=d-x86-64-generic
+DEFAULT_DEVICE=x86-64-generic
 Github=https://github.com/281677160/Actions-OpenWrt
 
 TIME() {
