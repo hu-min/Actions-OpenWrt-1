@@ -41,7 +41,6 @@ env:
   SCKEY: ${{ secrets.SCKEY }}
   DIY_SCRIPT: Scripts/diy-script.sh
   TZ: Asia/Shanghai
-  GITHUB_RELEASE: ${{Github}}/releases
 
 jobs: 
   build:
@@ -87,7 +86,7 @@ jobs:
       with:
         SCKEY: ${{ secrets.SCKEY }}
         text: 主人${{matrix.target}}编译开始啦
-        desp: 主人您要编译的[${{ env.WXFB_MESSAGE }}]固件正在努力耕耘中,请耐心等待......发布地址：${{ env.GITHUB_RELEASE }}
+        desp: 主人您要编译的[${{ env.WXFB_MESSAGE }}]固件正在努力耕耘中,请耐心等待......发布地址：${Github}/releases
     
     - name: 开始安装编译所需系统
       env:
