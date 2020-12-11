@@ -5,7 +5,7 @@
 
 Diy_Core() {
 Author=281677160
-Default_Device=x86-64-generic
+Default_Device=lede-x86-64
 }
 
 Diy-Part1() {
@@ -29,11 +29,11 @@ echo "$Openwrt_Version" > package/base-files/files/etc/openwrt_info
 Diy-Part3() {
 GET_TARGET_INFO
 Default_Firmware=openwrt-$TARGET_BOARD-$TARGET_SUBTARGET-$TARGET_PROFILE-squashfs-combined.img.gz
-AutoBuild_Firmware=AutoBuild-$TARGET_PROFILE-Lede-${Openwrt_Version}.img.gz
-AutoBuild_Detail=AutoBuild-$TARGET_PROFILE-Lede-${Openwrt_Version}.detail
+AutoBuild_Firmware=openwrt-Lede-x86-64-$TARGET_PROFILE-squashfs-${Openwrt_Version}.img.gz
+AutoBuild_Detail=MD5-$TARGET_PROFILE-Lede-${Openwrt_Version}.detail
 mkdir -p bin/Firmware
 echo "Firmware: $AutoBuild_Firmware"
-mv bin/targets/$TARGET_BOARD/$TARGET_SUBTARGET/$Default_Firmware bin/Firmware/$AutoBuild_Firmware
+cp bin/targets/$TARGET_BOARD/$TARGET_SUBTARGET/$Default_Firmware bin/Firmware/$AutoBuild_Firmware
 echo "[$(date "+%H:%M:%S")] Calculating MD5 and SHA256 ..."
 Firmware_MD5=$(md5sum bin/Firmware/$AutoBuild_Firmware | cut -d ' ' -f1)
 Firmware_SHA256=$(sha256sum bin/Firmware/$AutoBuild_Firmware | cut -d ' ' -f1)
