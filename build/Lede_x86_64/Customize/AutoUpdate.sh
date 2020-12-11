@@ -4,7 +4,7 @@
 # AutoUpdate for Openwrt
 
 Version=V4.3
-DEFAULT_DEVICE=x86-64-generic
+DEFAULT_DEVICE=QEMU Virtual
 Github=https://github.com/281677160/Actions-OpenWrt
 
 TIME() {
