@@ -12,7 +12,6 @@ Diy-Part1() {
 [ ! -d package/lean ] && mkdir -p package/lean
 Replace_File system package/base-files/files/etc/config
 Replace_File AutoUpdate.sh package/base-files/files/bin
-Replace_File banner package/base-files/files/etc
 ExtraPackages git lean luci-app-autoupdate https://github.com/Hyy2001X main
 }
 
