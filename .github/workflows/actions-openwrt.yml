@@ -151,8 +151,8 @@ jobs:
         fi
         
         if [ -n "$(ls -A "build/${{matrix.target}}/files/usr/bin/AdGuardHome" 2>/dev/null)" ]; then
-         cp -rf build/${{matrix.target}}/package/danshui/AdGuardHome build/${{matrix.target}}/files/usr/bin/AdGuardHome
-         chmod -R 777 build/${{matrix.target}}/files/usr/bin/AdGuardHome/AdGuardHome
+         cp -rf package/danshui/AdGuardHome files/usr/bin/AdGuardHome
+         chmod -R 777 files/usr/bin/AdGuardHome/AdGuardHome
         fi
         
         if [ -n "$(ls -A "build/${{matrix.target}}/diy" 2>/dev/null)" ]; then
