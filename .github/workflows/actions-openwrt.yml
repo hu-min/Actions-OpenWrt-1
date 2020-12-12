@@ -146,14 +146,13 @@ jobs:
           find "build/${{matrix.target}}/patches" -type f -name '*.patch' -print0 | sort -z | xargs -I % -t -0 -n 1 sh -c "cat '%'  | patch -d './' -p1 --forward --no-backup-if-mismatch"
         fi
         if [ -n "$(ls -A "build/${{matrix.target}}/files" 2>/dev/null)" ]; then
-         
          cp -rf build/${{matrix.target}}/files files
          chmod -R 777 build/${{matrix.target}}/files/* ./
         fi
         
-        if [ -n "$(ls -A "$GITHUB_WORKSPACE/AdGuardHome" 2>/dev/null)" ]; then
-         cp -rf $GITHUB_WORKSPACE/AdGuardHome/usr/bin/AdGuardHome/AdGuardHome build/${{matrix.target}}/files/usr/bin/AdGuardHome
-         chmod -R 777 build/${{matrix.target}}/files/* ./
+        if [ -n "$(ls -A "build/${{matrix.target}}/files/usr/bin/AdGuardHome" 2>/dev/null)" ]; then
+         cp -rf build/${{matrix.target}}/package/danshui/AdGuardHome build/${{matrix.target}}/files/usr/bin/AdGuardHome
+         chmod -R 777 build/${{matrix.target}}/files/usr/bin/AdGuardHome/AdGuardHome
         fi
         
         if [ -n "$(ls -A "build/${{matrix.target}}/diy" 2>/dev/null)" ]; then
