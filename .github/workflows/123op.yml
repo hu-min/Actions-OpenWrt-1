@@ -7,7 +7,7 @@
 #
 
 
-name: 编1
+name: 编译OpenWrt固件
 
 on:
   workflow_dispatch:
@@ -51,7 +51,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [Lede_phicomm_n1]
+        target: [Lede_redmi_ac2100,Lede_x86_64]
 
      # [Lede_nanopi_r2s,Lede_newifi_d2,Lede_phicomm_k2p,Lede_phicomm_n1,Lede_redmi_ac2100,Lede_wr703n_v1,Lede_x86_64,Lede_xiaomi_r3pro,Lede_xiaoyu_c5]
      # [Lienol_phicomm_k2p,Lienol_phicomm_k3,Lienol_x86_64]
@@ -129,6 +129,7 @@ jobs:
         fi
         if [ build/${{matrix.target}} != build/openwrt ]; then
           git clone -b $REPO_BRANCH --single-branch https://github.com/281677160/openwrt-package package/danshui
+          git clone -b adg --single-branch https://github.com/281677160/openwrt-package package/adg
         fi
         ./scripts/feeds clean && ./scripts/feeds update -a && ./scripts/feeds install -a && ./scripts/feeds install -a
         if [ -f "build/${{matrix.target}}/$DIY_P2_SH" ]; then
@@ -140,7 +141,11 @@ jobs:
         fi
         if [ -n "$(ls -A "build/${{matrix.target}}/files" 2>/dev/null)" ]; then
          cp -rf build/${{matrix.target}}/files files
-         chmod -R 755 build/${{matrix.target}}/files/* ./
+         chmod -R 777 build/${{matrix.target}}/files/* ./
+        fi
+        if [ -n "$(ls -A "build/${{matrix.target}}/files/usr/bin/AdGuardHome" 2>/dev/null)" ]; then
+         cp -rf package/adg/AdGuardHome files/usr/bin/AdGuardHome
+         chmod -R 777 files/usr/bin/AdGuardHome/AdGuardHome
         fi
         if [ -n "$(ls -A "build/${{matrix.target}}/diy" 2>/dev/null)" ]; then
          cp -Rf build/${{matrix.target}}/diy/* ./
@@ -153,7 +158,7 @@ jobs:
         make && sudo make install
         popd
  
-    - name: SSH远程连接（运行到此必须刷新一次网页耐心等待代码展开,不能频繁刷新）
+    - name: SSH远程连接（若打开SSH,运行到此必须刷新一次网页耐心等待代码展开,不能频繁刷新）
       uses: garypang13/debugger-action@master
       if: env.SSH_ACTIONS == 'true' || (github.event.inputs.ssh == 'ssh' && github.event.inputs.ssh  != 'false')
 
@@ -182,13 +187,11 @@ jobs:
       with:
         name: OpenWrt_bin_${{matrix.target}}_${{ env.date }}
         path: openwrt/bin
-    
-    
-    - name: 整理固件文件夹
+
+    - name: 打包n1、vplus、beikeyun、l1pro、s905x3固件
       run: |
-        if [ build/${{matrix.target}} = build/Lede_phicomm_n1 ] [ build/${{matrix.target}} = build/Project_phicomm_n1 ]; then 
-         mkdir -p openwrt/bin/targets/armvirt/64/n1
-         cp openwrt/bin/targets/armvirt/64/*.tar.gz reform/openwrt
+        if [ -n "$(ls -A "openwrt/bin/targets/armvirt" 2>/dev/null)" ]; then
+         mv -f openwrt/bin/targets/armvirt/*/*.tar.gz reform/openwrt
          cd reform
          sudo ./gen_openwrt -d -k latest
          devices=("phicomm-n1" "vplus" "beikeyun" "l1pro" "s905x3")
@@ -201,27 +204,26 @@ jobs:
            echo "firmware_$x=$filename" >> $GITHUB_ENV
          done
            cd ../ && cd ../
-           cp reform/out/*/*.img.gz openwrt/bin/targets/armvirt/64/n1
+           mv -f reform/out/*/*.img.gz openwrt/bin/targets/armvirt/*
         fi
-    
     
     - name: 整理固件文件夹
       id: organizer
       run: |
         mkdir config
         find openwrt/bin/targets/ -name "*config.buildinfo*" | xargs -i mv -f {} config
+        if [ -n "$(ls -A "openwrt/bin/targets/x86" 2>/dev/null)" ]; then
+         find -name "*rootfs*" | xargs -i mv -f {} openwrt/bin/targets
+         find -name "*kernel*" | xargs -i mv -f {} openwrt/bin/targets
+        fi
         cd openwrt/bin/targets/*/*
         rm -rf packages && mkdir packages
         find -name "*buildinfo*" | xargs -i mv -f {} packages
         find -name "*sha256sums*" | xargs -i mv -f {} packages
-        find -name "*kernel.bin*" | xargs -i mv -f {} packages
-        find -name "*kernel1.bin*" | xargs -i mv -f {} packages
         find -name "*manifest*" | xargs -i mv -f {} packages
         find -name "*vmlinuz*" | xargs -i mv -f {} packages
         find -name "*esxi.vmdk*" | xargs -i mv -f {} packages
         find -name "*Image*" | xargs -i mv -f {} packages
-        find -name "*rootfs-squashfs*" | xargs -i mv -f {} packages
-        find -name "*squashfs-rootfs*" | xargs -i mv -f {} packages
         rm -rf packages
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         echo "::set-output name=status::success"
