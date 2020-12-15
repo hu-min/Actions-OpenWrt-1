@@ -15,7 +15,7 @@ sed -i "s/OpenWrt /此固件由281677160编译于$(TZ=UTC-8 date "+%Y年%m月%d�
 sed -i 's/luci-theme-bootstrap/luci-theme-argon/g' feeds/luci/collections/luci/Makefile
 
 # 设置密码为空（安装固件时无需密码登陆，然后自己修改想要的密码）
-sed -i 's@.*CYXluq4wUazHjmCDBCqXF*@#&@g' package/lean/default-settings/files/zzz-default-settings
+sed -i 's@.*vSTU$VujHcl06HmzEMGAHyvmYj*@#&@g' package/lean/default-settings/files/zzz-default-settings
 
 
 # 修改内核版本
