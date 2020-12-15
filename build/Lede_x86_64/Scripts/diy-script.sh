@@ -5,14 +5,16 @@
 
 Diy_Core() {
 Author=281677160
-Default_Device=lede-x86-64
+Default_Device=x86-64-generic
 }
 
 Diy-Part1() {
 [ ! -d package/lean ] && mkdir -p package/lean
-Replace_File system package/base-files/files/etc/config
+
 Replace_File AutoUpdate.sh package/base-files/files/bin
+
 ExtraPackages git lean luci-app-autoupdate https://github.com/Hyy2001X main
+
 }
 
 Diy-Part2() {
@@ -21,18 +23,17 @@ echo "Author: $Author"
 echo "Openwrt Version: $Openwrt_Version"
 echo "AutoUpdate Version: $AutoUpdate_Version"
 echo "Router: $TARGET_PROFILE"
-sed -i "s?$Lede_Version?$Lede_Version Compiled by $Author [$Display_Date]?g" $Default_File
 echo "$Openwrt_Version" > package/base-files/files/etc/openwrt_info
 }
 
 Diy-Part3() {
 GET_TARGET_INFO
 Default_Firmware=openwrt-$TARGET_BOARD-$TARGET_SUBTARGET-$TARGET_PROFILE-squashfs-combined.img.gz
-AutoBuild_Firmware=openwrt-Lede-x86-64-$TARGET_PROFILE-squashfs-${Openwrt_Version}.img.gz
-AutoBuild_Detail=MD5-$TARGET_PROFILE-Lede-${Openwrt_Version}.detail
+AutoBuild_Firmware=AutoBuild-$TARGET_PROFILE-Lede-${Openwrt_Version}.img.gz
+AutoBuild_Detail=AutoBuild-$TARGET_PROFILE-Lede-${Openwrt_Version}.detail
 mkdir -p bin/Firmware
 echo "Firmware: $AutoBuild_Firmware"
-cp bin/targets/$TARGET_BOARD/$TARGET_SUBTARGET/$Default_Firmware bin/Firmware/$AutoBuild_Firmware
+mv bin/targets/$TARGET_BOARD/$TARGET_SUBTARGET/$Default_Firmware bin/Firmware/$AutoBuild_Firmware
 echo "[$(date "+%H:%M:%S")] Calculating MD5 and SHA256 ..."
 Firmware_MD5=$(md5sum bin/Firmware/$AutoBuild_Firmware | cut -d ' ' -f1)
 Firmware_SHA256=$(sha256sum bin/Firmware/$AutoBuild_Firmware | cut -d ' ' -f1)
@@ -43,7 +44,7 @@ echo -e "\nMD5:$Firmware_MD5\nSHA256:$Firmware_SHA256" >> bin/Firmware/$AutoBuil
 
 GET_TARGET_INFO() {
 Diy_Core
-[ -e $GITHUB_WORKSPACE/Openwrt.info ] && . $GITHUB_WORKSPACE/Openwrt.info
+[ -e $GITHUB_WORKSPACE/build/Lede_x86_64/Openwrt.info ] && . $GITHUB_WORKSPACE/build/Lede_x86_64/Openwrt.info
 AutoUpdate_Version=$(awk 'NR==6' package/base-files/files/bin/AutoUpdate.sh | awk -F '[="]+' '/Version/{print $2}')
 Default_File="package/lean/default-settings/files/zzz-default-settings"
 Lede_Version=$(egrep -o "R[0-9]+\.[0-9]+\.[0-9]+" $Default_File)
@@ -91,27 +92,27 @@ done
 
 Replace_File() {
 FILE_NAME=$1
-PATCH_DIR=$GITHUB_WORKSPACE/openwrt/$2
+PATCH_DIR=$GITHUB_WORKSPACE/build/Lede_x86_64/openwrt/$2
 FILE_RENAME=$3
 
 [ ! -d $PATCH_DIR ] && mkdir -p $PATCH_DIR
-if [ -f $GITHUB_WORKSPACE/Customize/$FILE_NAME ];then
-	if [ -e $GITHUB_WORKSPACE/Customize/$FILE_NAME ];then
+if [ -f $GITHUB_WORKSPACE/build/Lede_x86_64/Customize/$FILE_NAME ];then
+	if [ -e $GITHUB_WORKSPACE/build/Lede_x86_64/Customize/$FILE_NAME ];then
 		echo "[$(date "+%H:%M:%S")] Customize File [$FILE_NAME] is detected!"
 		if [ -z $FILE_RENAME ];then
 			[ -e $PATCH_DIR/$FILE_NAME ] && rm -f $PATCH_DIR/$FILE_NAME
-			mv -f $GITHUB_WORKSPACE/Customize/$FILE_NAME $PATCH_DIR/$1
+			mv -f $GITHUB_WORKSPACE/build/Lede_x86_64/Customize/$FILE_NAME $PATCH_DIR/$1
 		else
 			[ -e $PATCH_DIR/$FILE_NAME ] && rm -f $PATCH_DIR/$3
-			mv -f $GITHUB_WORKSPACE/Customize/$FILE_NAME $PATCH_DIR/$3
+			mv -f $GITHUB_WORKSPACE/build/Lede_x86_64/Customize/$FILE_NAME $PATCH_DIR/$3
 		fi
 	else
 		echo "[$(date "+%H:%M:%S")] Customize File [$FILE_NAME] is not detected,skip move ..."
 	fi
 else
-	if [ -d $GITHUB_WORKSPACE/Customize/$FILE_NAME ];then
+	if [ -d $GITHUB_WORKSPACE/build/Lede_x86_64/Customize/$FILE_NAME ];then
 		echo "[$(date "+%H:%M:%S")] Customize Folder [$FILE_NAME] is detected !"
-		mv -f $GITHUB_WORKSPACE/Customize/$FILE_NAME $PATCH_DIR
+		mv -f $GITHUB_WORKSPACE/build/Lede_x86_64/Customize/$FILE_NAME $PATCH_DIR
 	else
 		echo "[$(date "+%H:%M:%S")] Customize Folder [$FILE_NAME] is not detected,skip move ..."
 	fi
