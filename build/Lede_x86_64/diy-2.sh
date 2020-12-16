@@ -9,7 +9,7 @@ sed -i 's/192.168.1.1/192.168.2.2/g' package/base-files/files/bin/config_generat
 sed -i '/uci commit system/i\uci set system.@system[0].hostname='OpenWrt-123'' package/lean/default-settings/files/zzz-default-settings
 
 # 版本号里显示一个自己的名字（281677160 build $(TZ=UTC-8 date "+%Y.%m.%d") @ 这些都是后增加的）
-sed -i "s/OpenWrt /此固件由281677160编译于$(TZ=UTC-8 date "+%Y年%m月%d日") @ 版本：/g" package/lean/default-settings/files/zzz-default-settings
+#sed -i "s/OpenWrt /此固件由281677160编译于$(TZ=UTC-8 date "+%Y年%m月%d日") @ 版本：/g" package/lean/default-settings/files/zzz-default-settings
 
 # 修改 argon 为默认主题,可根据你喜欢的修改成其他的（不选择那些会自动改变为默认主题的主题才有效果）
 sed -i 's/luci-theme-bootstrap/luci-theme-argon/g' feeds/luci/collections/luci/Makefile
