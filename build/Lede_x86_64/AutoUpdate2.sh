@@ -22,8 +22,8 @@ TARGET_SUBTARGET=$(awk -F '[="]+' '/TARGET_SUBTARGET/{print $2}' .config)
 }
 
 GET_TARGET_INFO
-Default_Firmware=openwrt-$TARGET_BOARD-$TARGET_PROFILE-squashfs.trx
-AutoBuild_Firmware=openwrt-$TARGET_BOARD-$TARGET_PROFILE-${Openwrt_Version}.trx
+Default_Firmware=openwrt-$TARGET_BOARD-$TARGET_PROFILE-squashfs-combined.img.gz
+AutoBuild_Firmware=openwrt-$TARGET_BOARD-$TARGET_PROFILE-squashfs-combined-${Openwrt_Version}.img.gz
 AutoBuild_Detail=openwrt-$TARGET_BOARD-$TARGET_PROFILE-${Openwrt_Version}.detail
 mv bin/targets/$TARGET_BOARD/$TARGET_SUBTARGET/$Default_Firmware bin/targets/$TARGET_BOARD/$TARGET_SUBTARGET/$AutoBuild_Firmware
 echo "Firmware: $AutoBuild_Firmware"
