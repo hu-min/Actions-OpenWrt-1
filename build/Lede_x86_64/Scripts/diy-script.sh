@@ -23,6 +23,7 @@ echo "Author: $Author"
 echo "Openwrt Version: $Openwrt_Version"
 echo "AutoUpdate Version: $AutoUpdate_Version"
 echo "Router: $TARGET_PROFILE"
+sed -i "s?$Lede_Version?$Lede_Version Compiled by $Author [$Display_Date]?g" $Default_File
 echo "$Openwrt_Version" > package/base-files/files/etc/openwrt_info
 }
 
