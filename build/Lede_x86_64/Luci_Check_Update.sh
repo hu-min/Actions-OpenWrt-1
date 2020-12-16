@@ -12,8 +12,8 @@ Github=`awk -F '[=]' '/Github/{print $2}' /bin/AutoUpdate.sh | awk 'NR==1'`
 Author=${Github##*com/}
 Github_Tags=https://api.github.com/repos/$Author/releases/latest
 wget -q ${Github_Tags} -O - > /tmp/Github_Tags
-GET_FullVersion=$(cat /tmp/Github_Tags | egrep -o "openwrt-bcm53xx-phicomm-k3-[0-9]+.[0-9]+.[0-9]+.[0-9]+" | awk 'END {print}')
-GET_Version="${GET_FullVersion#*k3-}"
+GET_FullVersion=$(cat /tmp/Github_Tags | egrep -o "openwrt-x86-64-generic-squashfs-combined-[0-9]+.[0-9]+.[0-9]+.[0-9]+" | awk 'END {print}')
+GET_Version="${GET_FullVersion#*x86-64-}"
 CURRENT_Version=$(awk 'NR==1' /etc/openwrt_info)
 if [[ -z "$GET_Version" ]];then
 	echo "未知" > /tmp/cloud_version
