@@ -5,7 +5,7 @@
 
 Diy_Core() {
 Author=281677160
-Default_Device=x86-64-generic
+Default_Device=qemu-standard-pc-i440fx-piix-1996
 }
 
 Diy-Part1() {
