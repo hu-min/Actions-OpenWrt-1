@@ -4,7 +4,7 @@
 # AutoUpdate for Openwrt
 
 Version=V4.3
-DEFAULT_DEVICE=x86-64-generic
+DEFAULT_DEVICE=x86-64
 Github=https://github.com/281677160/Actions-OpenWrt
 
 TIME() {
@@ -89,7 +89,7 @@ if [[ ! ${Force_Update} == 1 ]];then
 	fi
 fi
 Firmware_Info="${GET_FullVersion}"
-Firmware="${Firmware_Info}.bin"
+Firmware="${Firmware_Info}.img.gz"
 Firmware_Detail="${Firmware_Info}.detail"
 echo "云端固件名称: ${Firmware}"
 cd /tmp
