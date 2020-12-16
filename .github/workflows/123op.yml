@@ -153,10 +153,19 @@ jobs:
         [ -e build/${{matrix.target}}/$CONFIG_FILE ]
         mv build/${{matrix.target}}/$CONFIG_FILE .config
         make defconfig
+        if [ -f "build/${{matrix.target}}/AutoUpdate1.sh" ]; then
+          mv -f build/${{matrix.target}}/Luci_Check_Update.sh ./package/luci-app-autoupdate/root/usr/share/autoupdate/Check_Update.sh
+          mv build/${{matrix.target}}/AutoUpdate.sh ./package/base-files/files/bin
+          chmod +x build/${{matrix.target}}/AutoUpdate1.sh
+          source build/${{matrix.target}}/AutoUpdate1.sh
+          /bin/bash "build/${{matrix.target}}/AutoUpdate1.sh"
+        fi 
         git clone https://github.com/openwrt-dev/po2lmo.git
         pushd po2lmo
         make && sudo make install
         popd
+        echo "Compile_Date=$(date +%Y%m%d)" > $GITHUB_WORKSPACE/Openwrt.info
+        echo "Display_Date=$(date +'%Y/%m/%d')" >> $GITHUB_WORKSPACE/Openwrt.info
  
     - name: SSH远程连接（若打开SSH,运行到此必须刷新一次网页耐心等待代码展开,不能频繁刷新）
       uses: garypang13/debugger-action@master
@@ -181,6 +190,15 @@ jobs:
         echo "date1=$(date "+%Y年%m月%d号-%H点%M分")" >> $GITHUB_ENV
         echo "date2=$(date "+%Y%m%d-%H%M")" >> $GITHUB_ENV
 
+    - name: 整理固件
+      run: |
+        cp -Rf `find ./ -maxdepth 1 -type d ! -path './openwrt' ! -path './'` openwrt
+        cd openwrt
+        if [ -f "build/${{matrix.target}}/AutoUpdate2.sh" ]; then
+          chmod +x build/${{matrix.target}}/AutoUpdate2.sh
+          /bin/bash "build/${{matrix.target}}/AutoUpdate2.sh"
+        fi
+    
     - name: 上传bin文件夹(固件+ipk)在github空间
       uses: actions/upload-artifact@v2
       if: steps.compile.outputs.status == 'success' && env.UPLOAD_BIN_DIR == 'true'
