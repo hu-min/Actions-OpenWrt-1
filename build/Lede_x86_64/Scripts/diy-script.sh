@@ -44,7 +44,7 @@ echo -e "\nMD5:$Firmware_MD5\nSHA256:$Firmware_SHA256" >> bin/Firmware/$AutoBuil
 
 GET_TARGET_INFO() {
 Diy_Core
-[ -e $GITHUB_WORKSPACE/build/Lede_x86_64/Openwrt.info ] && . $GITHUB_WORKSPACE/build/Lede_x86_64/Openwrt.info
+[ -e $GITHUB_WORKSPACE/Openwrt.info ] && . $GITHUB_WORKSPACE/Openwrt.info
 AutoUpdate_Version=$(awk 'NR==6' package/base-files/files/bin/AutoUpdate.sh | awk -F '[="]+' '/Version/{print $2}')
 Default_File="package/lean/default-settings/files/zzz-default-settings"
 Lede_Version=$(egrep -o "R[0-9]+\.[0-9]+\.[0-9]+" $Default_File)
@@ -92,7 +92,7 @@ done
 
 Replace_File() {
 FILE_NAME=$1
-PATCH_DIR=$GITHUB_WORKSPACE/build/Lede_x86_64/openwrt/$2
+PATCH_DIR=$GITHUB_WORKSPACE/openwrt/$2
 FILE_RENAME=$3
 
 [ ! -d $PATCH_DIR ] && mkdir -p $PATCH_DIR
@@ -100,7 +100,7 @@ if [ -f $GITHUB_WORKSPACE/build/Lede_x86_64/Customize/$FILE_NAME ];then
 	if [ -e $GITHUB_WORKSPACE/build/Lede_x86_64/Customize/$FILE_NAME ];then
 		echo "[$(date "+%H:%M:%S")] Customize File [$FILE_NAME] is detected!"
 		if [ -z $FILE_RENAME ];then
-			[ -e $PATCH_DIR/$FILE_NAME ] && rm -f $PATCH_DIR/$FILE_NAME
+			[ -e $PATCH_DIR/build/Lede_x86_64/$FILE_NAME ] && rm -f $PATCH_DIR/$FILE_NAME
 			mv -f $GITHUB_WORKSPACE/build/Lede_x86_64/Customize/$FILE_NAME $PATCH_DIR/$1
 		else
 			[ -e $PATCH_DIR/$FILE_NAME ] && rm -f $PATCH_DIR/$3
