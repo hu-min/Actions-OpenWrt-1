@@ -6,7 +6,7 @@
 
 Diy_Core() {
 Author=dhxh
-Default_Device=phicomm-k3
+Default_Device=x86-64
 }
 
 GET_TARGET_INFO() {
