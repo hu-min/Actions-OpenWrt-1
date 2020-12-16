@@ -4,8 +4,8 @@
 # AutoUpdate
 
 Version=V4.1
-DEFAULT_DEVICE=phicomm-k3
-Github=https://github.com/dhxh/OpenwrtBuild
+DEFAULT_DEVICE=x86-64
+Github=https://github.com/281677160/Actions-OpenWrt
 Build_Date=$(cat /tmp/Github_Tags | egrep -o "${Github}/releases/tag/[0-9]+.[0-9]+" | awk 'END {print}')
 Updaet_Date="${Build_Date#*tag/}"
 
@@ -63,7 +63,7 @@ fi
 TIME && echo "正在检查版本更新..."
 [ ! -f /tmp/Github_Tags ] && touch /tmp/Github_Tags
 wget -q ${Github_Tags} -O - > /tmp/Github_Tags
-GET_FullVersion=$(cat /tmp/Github_Tags | egrep -o "openwrt-bcm53xx-phicomm-k3-[0-9]+.[0-9]+.[0-9]+.[0-9]+" | awk 'END {print}')
+GET_FullVersion=$(cat /tmp/Github_Tags | egrep -o "openwrt-x86-64-generic-[0-9]+.[0-9]+.[0-9]+.[0-9]+" | awk 'END {print}')
 GET_Version="${GET_FullVersion#*k3-}"
 if [[ -z "${GET_FullVersion}" ]] || [[ -z "${GET_Version}" ]];then
 	TIME && echo "检查更新失败,请稍后重试!"
@@ -117,4 +117,4 @@ if [[ ! "${GET_MD5}" == "${CURRENT_MD5}" ]];then
 fi
 TIME && echo -e "开始升级固件,请耐心等待...\n"
 sleep 3
-sysupgrade ${Upgrade_Options} ${Firmware}
+combined ${Upgrade_Options} ${Firmware}
