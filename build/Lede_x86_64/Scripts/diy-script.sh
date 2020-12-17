@@ -29,8 +29,8 @@ echo "$Openwrt_Version" > package/base-files/files/etc/openwrt_info
 
 Diy-Part3() {
 GET_TARGET_INFO
-Default_Firmware=openwrt-$TARGET_BOARD-$TARGET_SUBTARGET-$TARGET_PROFILE-squashfs-combined.img.gz
-AutoBuild_Firmware=AutoBuild-$TARGET_PROFILE-Lede-${Openwrt_Version}.img.gz
+Default_Firmware=openwrt-$TARGET_BOARD-$TARGET_SUBTARGET-$TARGET_PROFILE-squashfs-combined.trx
+AutoBuild_Firmware=AutoBuild-$TARGET_PROFILE-Lede-${Openwrt_Version}.trx
 AutoBuild_Detail=AutoBuild-$TARGET_PROFILE-Lede-${Openwrt_Version}.detail
 mkdir -p bin/Firmware
 echo "Firmware: $AutoBuild_Firmware"
