@@ -9,7 +9,7 @@
 #
 
 # lede源码增加ShadowSocksR Plus+
-#sed -i 's/^#\(.*helloworld\)/\1/' feeds.conf.default
+sed -i 's/^#\(.*helloworld\)/\1/' feeds.conf.default
 
 # lede源码增加passwall,也适用于增加其他插件的方法
 #sed -i '$a src-git passwall https://github.com/xiaorouji/openwrt-passwall' feeds.conf.default
