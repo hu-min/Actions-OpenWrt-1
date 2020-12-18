@@ -122,4 +122,4 @@ else
 fi
 TIME && echo -e "开始更新固件,请耐心等待路由器重启...\n"
 sleep 3
-squashfs ${Upgrade_Options} ${Firmware}
+sysupgrade ${Upgrade_Options} ${Firmware}
