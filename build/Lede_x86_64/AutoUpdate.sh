@@ -117,4 +117,4 @@ if [[ ! "${GET_MD5}" == "${CURRENT_MD5}" ]];then
 fi
 TIME && echo -e "开始升级固件,请耐心等待...\n"
 sleep 3
-combined ${Upgrade_Options} ${Firmware}
+sysupgrade ${Upgrade_Options} ${Firmware}
