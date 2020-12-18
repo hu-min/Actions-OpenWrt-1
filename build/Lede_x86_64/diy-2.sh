@@ -15,7 +15,7 @@ sed -i '/uci commit system/i\uci set system.@system[0].hostname='OpenWrt-123'' p
 sed -i 's/luci-theme-bootstrap/luci-theme-argon/g' feeds/luci/collections/luci/Makefile
 
 # 设置密码为空（安装固件时无需密码登陆，然后自己修改想要的密码）
-sed -i 's$1$NNybnI9Z$glW543EMmqQ/uAgQojxCN1:18612:0:99999:7:::' package/lean/default-settings/files/zzz-default-settings
+sed -i 's$1$WW4ohEG9$7sxqtZ7Ngla4ZnD8b5u4b1:18614g' package/lean/default-settings/files/zzz-default-settings
 
 
 # 修改内核版本
